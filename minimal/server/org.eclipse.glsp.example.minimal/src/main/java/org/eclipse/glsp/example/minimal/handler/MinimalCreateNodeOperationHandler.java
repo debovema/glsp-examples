@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 EclipseSource and others.
+ * Copyright (c) 2020-2021 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -15,6 +15,7 @@
  ********************************************************************************/
 package org.eclipse.glsp.example.minimal.handler;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.glsp.graph.DefaultTypes;
@@ -31,7 +32,8 @@ public class MinimalCreateNodeOperationHandler extends CreateNodeOperationHandle
    }
 
    @Override
-   protected GNode createNode(final Optional<GPoint> point, final GModelState modelState) {
+   protected GNode createNode(final Optional<GPoint> point, final Map<String, String> args,
+      final GModelState modelState) {
       GNodeBuilder builder = new GNodeBuilder(DefaultTypes.NODE)
          .size(40, 20)
          .addCssClass("minimal-node");

@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 EclipseSource and others.
+ * Copyright (c) 2020-2021 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,20 +17,20 @@ import 'sprotty-theia/css/theia-sprotty.css';
 
 import { creatMinimalDiagramContainer } from '@eclipse-glsp-examples/minimal-glsp';
 import { TYPES } from '@eclipse-glsp/client';
-import { GLSPTheiaDiagramServer } from '@eclipse-glsp/theia-integration/lib/browser';
+import { GLSPDiagramConfiguration, GLSPTheiaDiagramServer } from '@eclipse-glsp/theia-integration/lib/browser';
 import { Container, injectable } from 'inversify';
-import { DiagramConfiguration } from 'sprotty-theia';
 
-import { MinimalLanguage } from '../../common/minmal-language';
+import { MinimalLanguage } from '../common/minmal-language';
 
 @injectable()
-export class MinimalDiagramConfiguration implements DiagramConfiguration {
+export class MinimalDiagramConfiguration extends GLSPDiagramConfiguration {
 
-    diagramType: string = MinimalLanguage.DiagramType;
+    diagramType: string = MinimalLanguage.diagramType;
 
-    createContainer(widgetId: string): Container {
+    doCreateContainer(widgetId: string): Container {
         const container = creatMinimalDiagramContainer(widgetId);
         container.bind(TYPES.ModelSource).to(GLSPTheiaDiagramServer).inSingletonScope();
         return container;
     }
+
 }

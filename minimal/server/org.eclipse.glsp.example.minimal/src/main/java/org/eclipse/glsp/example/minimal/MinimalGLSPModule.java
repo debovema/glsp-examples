@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 EclipseSource and others.
+ * Copyright (c) 2020-2021 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -18,8 +18,9 @@ package org.eclipse.glsp.example.minimal;
 import org.eclipse.glsp.example.minimal.handler.MinimalCreateNodeOperationHandler;
 import org.eclipse.glsp.server.di.DefaultGLSPModule;
 import org.eclipse.glsp.server.diagram.DiagramConfiguration;
-import org.eclipse.glsp.server.features.core.model.JsonFileModelFactory;
-import org.eclipse.glsp.server.features.core.model.ModelFactory;
+import org.eclipse.glsp.server.features.core.model.GModelFactory;
+import org.eclipse.glsp.server.features.core.model.JsonFileGModelLoader;
+import org.eclipse.glsp.server.features.core.model.ModelSourceLoader;
 import org.eclipse.glsp.server.operations.OperationHandler;
 import org.eclipse.glsp.server.utils.MultiBinding;
 
@@ -37,8 +38,12 @@ public class MinimalGLSPModule extends DefaultGLSPModule {
    }
 
    @Override
-   protected Class<? extends ModelFactory> bindModelFactory() {
-      return JsonFileModelFactory.class;
+   protected Class<? extends ModelSourceLoader> bindSourceModelLoader() {
+      return JsonFileGModelLoader.class;
    }
 
+   @Override
+   protected Class<? extends GModelFactory> bindGModelFactory() {
+      return GModelFactory.NullImpl.class;
+   }
 }

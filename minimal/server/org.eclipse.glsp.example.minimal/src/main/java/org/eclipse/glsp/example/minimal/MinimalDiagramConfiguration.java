@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 EclipseSource and others.
+ * Copyright (c) 2020-2021 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -34,7 +34,7 @@ public class MinimalDiagramConfiguration implements DiagramConfiguration {
    public Map<String, EClass> getTypeMappings() { return DefaultTypes.getDefaultTypeMappings(); }
 
    @Override
-   public List<ShapeTypeHint> getNodeTypeHints() {
+   public List<ShapeTypeHint> getShapeTypeHints() {
       return List.of(new ShapeTypeHint(DefaultTypes.NODE, true, true, true, false));
    }
 

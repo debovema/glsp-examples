@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2020 EclipseSource and others.
+ * Copyright (c) 2020-2021 EclipseSource and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -13,28 +13,21 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  ********************************************************************************/
-import {
-    GLSPClientContribution,
-    registerCopyPasteContextMenu,
-    registerDiagramLayoutCommands,
-    registerDiagramManager
-} from '@eclipse-glsp/theia-integration/lib/browser';
-import { ContainerModule, interfaces } from 'inversify';
+import { ContainerContext, GLSPTheiaFrontendModule } from '@eclipse-glsp/theia-integration/lib/browser';
 import { DiagramConfiguration } from 'sprotty-theia';
 
-import { MinimalDiagramConfiguration } from './diagram/minimal-diagram-configuration';
-import { MinimalDiagramManager } from './diagram/minimal-diagram-manager';
-import { MinimalGLSPDiagramClient } from './diagram/minimal-glsp-diagram-client';
-import { MinimalGLSPClientContribution } from './language/minimal-glsp-client-contribution';
+import { MinimalLanguage } from '../common/minmal-language';
+import { MinimalDiagramConfiguration } from './minimal-diagram-configuration';
 
-export default new ContainerModule((bind: interfaces.Bind) => {
-    bind(MinimalGLSPClientContribution).toSelf().inSingletonScope();
-    bind(GLSPClientContribution).toService(MinimalGLSPClientContribution);
-    bind(DiagramConfiguration).to(MinimalDiagramConfiguration).inSingletonScope();
-    bind(MinimalGLSPDiagramClient).toSelf().inSingletonScope();
-    registerDiagramManager(bind, MinimalDiagramManager);
+class MinimalFrontendModule extends GLSPTheiaFrontendModule {
+    protected diagramLanguage = MinimalLanguage;
+    enableCopyPaste = true;
+    enableMarkerNavigationCommands = false;
+    enableLayoutCommands = true;
 
-    // Optional default commands and menus
-    registerDiagramLayoutCommands(bind);
-    registerCopyPasteContextMenu(bind);
-});
+    bindDiagramConfiguration(context: ContainerContext): void {
+        context.bind(DiagramConfiguration).to(MinimalDiagramConfiguration);
+    }
+
+}
+export default new MinimalFrontendModule();
